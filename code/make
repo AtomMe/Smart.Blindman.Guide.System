@@ -1,0 +1,4 @@
+g++ *.cpp -o app -lGL -lGLU -lglut  -lpthread `pkg-config opencv --libs --cflags`
+
+
+

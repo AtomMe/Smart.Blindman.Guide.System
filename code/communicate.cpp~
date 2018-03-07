@@ -1,0 +1,91 @@
+#include "communicate.h"
+#include "uartCMD.h"
+
+#if USE_UART
+void Comm_Init(void)
+{
+	UART_Init();
+}
+void Comm_GetAngle(short *angle)
+{
+	mpu6050_data_get(angle);
+}
+void Comm_SendVoice(char *v)
+{
+	uart_com(CMD_TX_Text,v);
+}
+void PutL2R_U2D(float dat[12][12],int startX,int startY,unsigned char *out)
+{
+	int cnt=0;
+	for(int i=startX;i<startX+6;i++)
+	{
+		for(int j=startY;j<startY+6;j++)
+		{
+			out[cnt]=dat[i][j];
+			cnt++;
+		}
+	}
+}
+void PutU2D_R2L(float dat[12][12],int startX,int startY,unsigned char *out)
+{
+	int cnt=0;
+	for(int i=startY;i>startY-6;i--)
+	{
+		for(int j=startX;j<startX+6;j++)
+		{
+			out[cnt]=dat[j][i];
+			cnt++;
+		}
+	}
+}
+void PutR2L_D2U(float dat[12][12],int startX,int startY,unsigned char *out)
+{
+	int cnt=0;
+	for(int i=startX;i>startX-6;i--)
+	{
+		for(int j=startY;j>startY-6;j--)
+		{
+			out[cnt]=dat[i][j];
+			cnt++;
+		}
+	}
+}
+void PutD2U_L2R(float dat[12][12],int startX,int startY,unsigned char *out)
+{
+	int cnt=0;
+	for(int j=startY;j<startY+6;j++)
+	{
+		for(int i=startX;i>startX-6;i--)
+		{
+			out[cnt]=dat[i][j];
+			cnt++;
+		}
+	}
+}
+void Comm_Send_144(float dat[12][12])
+{
+	unsigned char out[150],*p;
+	PutL2R_U2D(dat,0,0,out);
+	out[36]=out[0];
+	PutU2D_R2L(dat,0,11,out+37);
+	out[73]=out[37];
+	PutR2L_D2U(dat,11,11,out+74);
+	out[110]=out[74];
+	PutD2U_L2R(dat,11,0,out+111);
+	out[147]=out[111];
+	out[148]=0;
+	uart_com(CMD_TX_Point,(char*)out);
+}
+void Comm_Close(void)
+{
+	Close_UART();
+}
+#else
+void Comm_Init(void){};
+void Comm_GetAngle(int *angle){};
+void Comm_SendVoice(char *v){};
+void Comm_Send_144(float dat[12][12]){};
+void Comm_Close(void){};
+#endif
+
+

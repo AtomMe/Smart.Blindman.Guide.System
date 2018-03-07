@@ -1,0 +1,15 @@
+#ifndef __PUBLIC_H
+#define __PUBLIC_H
+
+#include <iostream>
+#include <cstdio>
+
+extern bool run_flag;
+#define USE_UART 0
+#define Img_X 240
+#define Img_Y 320
+#define dmax  40000
+#define dmin -40000
+#define drange 10000
+
+#endif

@@ -1,0 +1,129 @@
+/*
+freeglutapp:free opengl
+match:match points method (Calculate)
+MatchPont:use match.cpp to compute match result
+public.h:img_x,img_y
+*/
+//base headers
+#include <iostream>
+#include <cstdio>
+//opencv
+#include <opencv2/opencv.hpp>
+#include <opencv2/features2d.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/core/utility.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/calib3d.hpp>
+//muti thread
+#include <pthread.h>
+//my own headers
+#include "VideoCap.h"
+#include "trafficlight.h"
+#include "zebra.h"
+#include "MatchPoint.h"
+#include "freeglutapp.h"
+#include "communicate.h"
+
+using namespace std;
+using namespace cv;
+Mat v1_img,v2_img;
+bool run_flag=true;
+bool img_ready=false;
+
+void *thread(void *ptr)
+{
+        Mat img;
+	//thread 1 code start
+	while(run_flag==true)
+	{
+
+		//float time1=static_cast<float>(getTickCount());
+		if(Video_Grap(&img,&v2_img)==false)
+		{
+			printf("Capture imagine error!!\n");
+                        img_ready=false;
+			run_flag=false;
+			return 0;
+		}
+                resize(img,v1_img,Size(),0.5,0.5,CV_INTER_LINEAR);
+		img_ready=true;
+                
+		TrafficLight_Detect(&img);//traffic light
+		if(Zebra_Detect(&img)==true)
+		{
+                        
+			printf("Zebra exist!!\n");
+		}
+                if(waitKey(10)==27) break;
+		//printf("Run thread 1 need=%dms\n",(int)(((float)getTickCount()-time1)/getTickFrequency()*1000));
+	}
+	//thread 1 code end
+        run_flag=false;
+	printf("thread 1 exit!!\n");
+	return 0;
+}
+int main(int argc, char *argv[])
+{
+	float time=static_cast<float>(getTickCount());
+	if(VideoCap_Init(0,1)==false)
+	{
+		printf("Camera index is wrong!!\n");
+	}
+	Zabra_Init();
+	//Match_Init();
+	Comm_Init();
+	//Disp_Init(argc,argv);
+	namedWindow("left");
+	namedWindow("right");
+	printf("Init need=%dms\nStart Muti thread application!!\n",(int)(((float)getTickCount()-time)/getTickFrequency()*1000));
+	//muti thread
+	pthread_t id;
+    int ret = pthread_create(&id, NULL, thread, NULL);
+    if(ret) 
+    {
+        cout << "Create pthread error!" << endl;
+        return 1;
+    }
+    //thread 1 code start
+	
+	while(run_flag==true)
+	{
+		if(img_ready==false) 
+		{
+			waitKey(100);
+			continue;
+		}
+		//float time=static_cast<float>(getTickCount());
+		imshow("left",v1_img);
+		imshow("right",v2_img);
+		//Match_Point_Detect(&v1_img,&v2_img);
+		//Disp_Next(imgdata);
+		//printf("Run thread 0 need=%dms\n",(int)(((float)getTickCount()-time)/getTickFrequency()*1000));
+                int cnt=0;
+                for(int i=0;i<12;i++)
+                {
+                    for(int j=0;j<12;j++)
+                    {
+                         imgdata[i][j]=cnt;
+                         cnt++;
+                    }
+                }
+                Comm_Send_144(imgdata);
+		if(waitKey(10)==27 )	break;
+	}
+	//thread 1 code end
+	Comm_Close();
+	run_flag=false;
+	printf("thread 0 exit!!\n");
+	pthread_join(id, NULL);
+    return 0;
+}
+
+
+
+
+
+
+
