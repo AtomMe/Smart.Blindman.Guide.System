@@ -4,8 +4,6 @@ With social development, more and more efforts has been made to improve the live
  ![](./Display/framwork.jpg)
 
 We collect the data of binocular vision through two fixed cameras ,and then use several algorithms to extract and match feature points .After eliminating those mismatches with RANSAC algorithm, three-dimensional model of substances can be rebuilt on the embedded platform, basing on inside and outside parameter matrix of two cameras . 
- ![](./Display/PCB.png)
-
 The feedback system is a battery lead plate with 12*12 electrodes .stm32 single chip receives data of three-dimensional model and then output commands to control battery lead plate. Each electrode outputs electrical impulse with certain frequency , voltage amplitude or duty ratio, replacing touches that stimulate fingertip and generate information of different depth. These information allow three-dimensional model to reappear in spatial visual area of the brain. During the process, image information are processed with multi-threading technology, while traffic signs and warning marks in sight are recognized by BP algorithm. Information of various signs will be feedback to users through voice module and therefore can ensure safety and convenience for blind people in crowded areas.
 ##Design Plan
 ### 3D-Modelling
@@ -26,6 +24,6 @@ We want to develop our product smarter and more convenient for the blind in the 
 
 ## Achievement
 * [code](./code/)
-* [The 15th  Imagine Cup 3rd  Prize in Sichuan region](https://imagine.microsoft.com/zh-cn/Events?id=0&skillLevel=0)
-* [Project Video]()
+* The 15th  Imagine Cup 3rd  Prize in Sichuan region（[Imagine Cup official Web](https://imagine.microsoft.com/zh-cn/Events?id=0&skillLevel=0)）
+* [Project Video](https://pan.baidu.com/s/1dDWjT_6zTjYLYlm1twO7BQ?errno=0&errmsg=Auth%20Login%20Sucess&&bduss=&ssnerror=0&traceid=)
 
