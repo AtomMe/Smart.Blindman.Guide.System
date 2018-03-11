@@ -22,8 +22,8 @@ Therefore, in this module, we mainly in the process of walking on the zebra cros
 We want to develop our product smarter and more convenient for the blind in the future. The next generation of our product shows as follows.
  ![](./Display/Product.png)
 
-## Achievement
+## Achievements
 * [code](./code/)
-* The 15th  Imagine Cup 3rd  Prize in Sichuan region（[Imagine Cup official Web](https://imagine.microsoft.com/zh-cn/Events?id=0&skillLevel=0)）
+* The 15th  Imagine Cup 3rd  Prize in Sichuan region（[Imagine Cup official Website](https://imagine.microsoft.com/zh-cn/Events?id=0&skillLevel=0)）
 * [Project Video](https://pan.baidu.com/s/1dDWjT_6zTjYLYlm1twO7BQ?errno=0&errmsg=Auth%20Login%20Sucess&&bduss=&ssnerror=0&traceid=)
 
