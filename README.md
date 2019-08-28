@@ -1,5 +1,5 @@
 # iMan——THE BINOCULAR VISUAL GUIDE SYSTEM
-##Background
+## Background
 With social development, more and more efforts has been made to improve the lives for disabled people, such as providing effective guide tools  for blind people. This production combines ***computer vision, touch-vision replacement and pattern recognition*** with guide system .
  ![](./Display/framwork.jpg)
 
